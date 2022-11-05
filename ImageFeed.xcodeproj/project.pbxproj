@@ -20,6 +20,8 @@
 		D5B9FCD02915BE26009CDE17 /* like-active.svg in Resources */ = {isa = PBXBuildFile; fileRef = D5B9FCCD2915BE26009CDE17 /* like-active.svg */; };
 		D5B9FCD12915BE26009CDE17 /* Vector.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B9FCCE2915BE26009CDE17 /* Vector.png */; };
 		D5B9FCD22915BE26009CDE17 /* like-no-active.svg in Resources */ = {isa = PBXBuildFile; fileRef = D5B9FCCF2915BE26009CDE17 /* like-no-active.svg */; };
+		D5E2A7392916B05C001A321A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E2A7382916B05C001A321A /* ProfileViewController.swift */; };
+		D5E2A73C2916C0FF001A321A /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E2A73B2916C0FF001A321A /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		D5B9FCCD2915BE26009CDE17 /* like-active.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "like-active.svg"; sourceTree = "<group>"; };
 		D5B9FCCE2915BE26009CDE17 /* Vector.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Vector.png; sourceTree = "<group>"; };
 		D5B9FCCF2915BE26009CDE17 /* like-no-active.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "like-no-active.svg"; sourceTree = "<group>"; };
+		D5E2A7382916B05C001A321A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		D5E2A73B2916C0FF001A321A /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 		D58A856929146E4900DB0F3B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				D5E2A73A2916C0E5001A321A /* SingleImage */,
+				D5E2A7372916B030001A321A /* Profile */,
 				D5B9FCCA2915BD7A009CDE17 /* Resources */,
 				D5B9FCC92915B709009CDE17 /* ImagesList */,
 				D58A856A29146E4900DB0F3B /* AppDelegate.swift */,
@@ -157,6 +163,22 @@
 				D5B9FCCB2915BE08009CDE17 /* YS Display-Medium.ttf */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		D5E2A7372916B030001A321A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D5E2A7382916B05C001A321A /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		D5E2A73A2916C0E5001A321A /* SingleImage */ = {
+			isa = PBXGroup;
+			children = (
+				D5E2A73B2916C0FF001A321A /* SingleImageViewController.swift */,
+			);
+			path = SingleImage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,7 +317,9 @@
 			files = (
 				D58A856F29146E4900DB0F3B /* ImagesListViewController.swift in Sources */,
 				D5B9FCC82915B6CA009CDE17 /* ImagesListCell.swift in Sources */,
+				D5E2A7392916B05C001A321A /* ProfileViewController.swift in Sources */,
 				D58A856B29146E4900DB0F3B /* AppDelegate.swift in Sources */,
+				D5E2A73C2916C0FF001A321A /* SingleImageViewController.swift in Sources */,
 				D58A856D29146E4900DB0F3B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
