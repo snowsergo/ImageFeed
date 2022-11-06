@@ -61,7 +61,7 @@
                                             <constraints>
                                                 <constraint firstItem="yHg-cV-4Gf" firstAttribute="top" secondItem="2d4-nF-Oac" secondAttribute="top" constant="12" id="Kng-sF-yzo"/>
                                                 <constraint firstAttribute="leading" secondItem="2d4-nF-Oac" secondAttribute="leading" constant="-16" id="VK5-ZU-bSX"/>
-                                                <constraint firstItem="PDY-iw-yty" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="2d4-nF-Oac" secondAttribute="trailing" constant="8" id="Z3S-23-tR6"/>
+                                                <constraint firstItem="PDY-iw-yty" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="2d4-nF-Oac" secondAttribute="trailing" constant="8" id="Z3S-23-tR6" userLabel="Date Label.trailing ≤ Cell Image.trailing-8"/>
                                                 <constraint firstItem="2d4-nF-Oac" firstAttribute="top" secondItem="2TK-XN-0Zg" secondAttribute="topMargin" id="aRt-U3-SBe"/>
                                                 <constraint firstItem="yHg-cV-4Gf" firstAttribute="trailing" secondItem="2d4-nF-Oac" secondAttribute="trailing" constant="-10" id="bhQ-tH-QEE"/>
                                                 <constraint firstAttribute="bottom" secondItem="2d4-nF-Oac" secondAttribute="bottom" id="fu9-1Y-Enq"/>
@@ -144,13 +144,16 @@
                         <viewLayoutGuide key="safeArea" id="bbo-jb-fzU"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5l8-CE-LAC" secondAttribute="trailing" id="1Sl-UX-7Qb"/>
                             <constraint firstItem="UdT-Ay-IMp" firstAttribute="top" secondItem="mga-Ow-KAA" secondAttribute="top" constant="76" id="3cP-dD-wfq"/>
                             <constraint firstItem="5l8-CE-LAC" firstAttribute="leading" secondItem="bbo-jb-fzU" secondAttribute="leading" constant="16" id="8Cf-n6-clr"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LZI-zA-fLj" secondAttribute="trailing" id="8l0-jw-5dr"/>
                             <constraint firstItem="LZI-zA-fLj" firstAttribute="top" secondItem="GXJ-oz-VxS" secondAttribute="bottom" constant="8" id="Kkx-oK-yWS"/>
                             <constraint firstItem="LZI-zA-fLj" firstAttribute="leading" secondItem="mga-Ow-KAA" secondAttribute="leading" constant="16" id="Z1U-zq-Bm4"/>
                             <constraint firstItem="GXJ-oz-VxS" firstAttribute="top" secondItem="UdT-Ay-IMp" secondAttribute="bottom" constant="8" id="ccY-qD-y3a"/>
                             <constraint firstItem="UdT-Ay-IMp" firstAttribute="leading" secondItem="mga-Ow-KAA" secondAttribute="leading" constant="16" id="cuL-CW-s5n"/>
                             <constraint firstItem="5l8-CE-LAC" firstAttribute="top" secondItem="LZI-zA-fLj" secondAttribute="bottom" constant="8" id="hPk-I0-0ZK"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GXJ-oz-VxS" secondAttribute="trailing" id="nZK-EE-EFQ"/>
                             <constraint firstAttribute="trailing" secondItem="rB5-e5-FXj" secondAttribute="trailing" constant="26" id="oa3-6C-Utu"/>
                             <constraint firstItem="rB5-e5-FXj" firstAttribute="top" secondItem="mga-Ow-KAA" secondAttribute="top" constant="100" id="sst-DB-8Y6"/>
                             <constraint firstItem="GXJ-oz-VxS" firstAttribute="leading" secondItem="mga-Ow-KAA" secondAttribute="leading" constant="16" id="y9Q-li-Op3"/>
@@ -236,7 +239,7 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layerMasksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="didTapShareButton:" destination="rVS-XN-TLv" eventType="touchUpInside" id="yRr-sU-2mL"/>
