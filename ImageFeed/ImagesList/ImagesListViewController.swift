@@ -1,15 +1,36 @@
 import UIKit
 
 class ImagesListViewController: UIViewController {
+    @IBOutlet private var tableView: UITableView!
+
+    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
 
     private var photosName = [String]()
-
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
+        photosName = Array(0..<20).map{ "\($0)" }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowSingleImageSegueIdentifier {
+            let viewController = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let image = UIImage(named: photosName[indexPath.row])
+            viewController.image = image
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
@@ -39,22 +60,13 @@ class ImagesListViewController: UIViewController {
 
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
-        }
-
-
-    @IBOutlet private var tableView: UITableView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        photosName = Array(0..<20).map{ "\($0)" }
     }
 }
 
-extension ImagesListViewController: UITableViewDataSource{
+extension ImagesListViewController: UITableViewDataSource{}
 
-}
 extension ImagesListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+    }
 }
