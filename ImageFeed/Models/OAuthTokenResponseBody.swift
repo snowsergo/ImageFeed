@@ -1,6 +1,6 @@
 import Foundation
 
-struct UnsplashResponse {
+struct OAuthTokenResponseBody: Codable {
     let access_token: String
     let token_type: String
     let scope: String
