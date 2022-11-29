@@ -10,7 +10,6 @@ class AuthViewController: UIViewController {
     private var storage = OAuth2TokenStorage()
     weak var delegate: AuthViewControllerDelegate?
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {
             guard
