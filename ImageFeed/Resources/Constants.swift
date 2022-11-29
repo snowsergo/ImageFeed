@@ -1,9 +1,11 @@
 import Foundation
 
-let ACCESS_KEY = "sMwlgEfPs_JTrR4USTHssO46g2w52m6z-vRdBTuIvKs"
-let SECRET_KEY = "mQ0gz9mOQyspkUZFVqRclvy9XWJMVx2sEKtoFL11tW8"
-let REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob"
-let ACCESS_SCOPE = "public+read_user+write_likes"
-let DEFAULT_BASE_URL = URL(string: "https://api.unsplash.com")!
-let UNSPLASH_AUTH_STRING = "https://unsplash.com/oauth/authorize"
-let OAUTH_STRING = "https://unsplash.com/oauth/token"
+enum Constants {
+    static let accessKey = "sMwlgEfPs_JTrR4USTHssO46g2w52m6z-vRdBTuIvKs"
+    static let secretKey = "mQ0gz9mOQyspkUZFVqRclvy9XWJMVx2sEKtoFL11tW8"
+    static let redirectUri = "urn:ietf:wg:oauth:2.0:oob"
+    static let accessScope = "public+read_user+write_likes"
+    static let defaultBaseUrl = URL(string: "https://api.unsplash.com")!
+    static let unsplashAuthString = "https://unsplash.com/oauth/authorize"
+    static let oauthString = "https://unsplash.com/oauth/token"
+}

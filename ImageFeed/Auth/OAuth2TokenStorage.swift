@@ -6,10 +6,10 @@ class OAuth2TokenStorage {
         case token
     }
     
-     var token: String? {
+    var token: String? {
         get {
             guard let data = userDefaults.data(forKey: Keys.token.rawValue),
-                let token = try? JSONDecoder().decode(String.self, from: data) else {
+                  let token = try? JSONDecoder().decode(String.self, from: data) else {
                 return nil
             }
             return token

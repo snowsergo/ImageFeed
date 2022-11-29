@@ -276,11 +276,11 @@
             <objects>
                 <viewController id="gmN-ST-o7g" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="V8h-x6-hKS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rih-R8-dQW" userLabel="Enter Buton">
-                                <rect key="frame" x="16" y="670" width="382" height="48"/>
+                                <rect key="frame" x="16" y="690" width="382" height="48"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="ocI-lt-bjh"/>
@@ -298,11 +298,11 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="d2P-yG-Sy4" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="eDA-kF-nOB"/>
+                                    <segue destination="d2P-yG-Sy4" kind="presentation" identifier="ShowWebView" id="eDA-kF-nOB"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="auth_screen_logo" translatesAutoresizingMaskIntoConstraints="NO" id="ydZ-4u-PLx">
-                                <rect key="frame" x="177" y="419" width="60" height="60"/>
+                                <rect key="frame" x="177" y="423" width="60" height="60"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="c7E-TV-PGE"/>
@@ -325,11 +325,12 @@
         <!--Navigation Controller-->
         <scene sceneID="ozq-On-baW">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="57v-qC-9E2" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yXP-bZ-pLD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" navigationBarHidden="YES" id="57v-qC-9E2" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="KuL-pc-MEb"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tc0-ai-zl9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="Tc0-ai-zl9">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -337,20 +338,19 @@
                         <segue destination="gmN-ST-o7g" kind="relationship" relationship="rootViewController" id="eTh-jn-FAo"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yXP-bZ-pLD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-307" y="-707"/>
         </scene>
         <!--Web View View Controller-->
         <scene sceneID="xYK-Be-MyR">
             <objects>
-                <viewController id="d2P-yG-Sy4" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="d2P-yG-Sy4" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CxX-ka-wto">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CIi-hN-ANC">
-                                <rect key="frame" x="0.0" y="20" width="414" height="856"/>
+                                <rect key="frame" x="0.0" y="143" width="414" height="733"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -380,11 +380,12 @@
                             <constraint firstItem="f1g-Ii-2rX" firstAttribute="top" secondItem="EnP-9u-YRZ" secondAttribute="top" constant="55" id="ZEv-ad-z7a"/>
                             <constraint firstItem="EnP-9u-YRZ" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="f1g-Ii-2rX" secondAttribute="trailing" constant="10" id="gWs-6Q-8yo"/>
                             <constraint firstItem="HdV-7J-gmn" firstAttribute="top" secondItem="f1g-Ii-2rX" secondAttribute="baseline" id="iL8-aE-cXe"/>
-                            <constraint firstItem="CIi-hN-ANC" firstAttribute="top" secondItem="CxX-ka-wto" secondAttribute="top" constant="20" symbolic="YES" id="ikE-Is-7OJ"/>
+                            <constraint firstItem="CIi-hN-ANC" firstAttribute="top" secondItem="HdV-7J-gmn" secondAttribute="bottom" constant="16" id="jYn-d9-7DQ"/>
                             <constraint firstItem="CIi-hN-ANC" firstAttribute="leading" secondItem="CxX-ka-wto" secondAttribute="leading" id="krn-9V-lzr"/>
                             <constraint firstAttribute="trailing" secondItem="CIi-hN-ANC" secondAttribute="trailing" id="yzm-hU-8cB"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="nmJ-4P-Bid"/>
                     <connections>
                         <outlet property="progressView" destination="HdV-7J-gmn" id="68O-FG-9Mk"/>
                         <outlet property="webView" destination="CIi-hN-ANC" id="lKt-Q4-HjC"/>
@@ -405,7 +406,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <segue destination="57v-qC-9E2" kind="show" identifier="ShowAuth" id="lMm-wv-FGZ"/>
+                        <segue destination="57v-qC-9E2" kind="presentation" identifier="ShowAuth" id="lMm-wv-FGZ"/>
                         <segue destination="3pq-Ly-xpZ" kind="show" identifier="ShowFeed" id="5f6-DK-K72"/>
                     </connections>
                 </viewController>

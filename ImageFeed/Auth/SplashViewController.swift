@@ -11,8 +11,8 @@ class SplashViewController: UIViewController{
             switchToTabBarController()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
-            }
         }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -29,7 +29,7 @@ class SplashViewController: UIViewController{
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
-    }
+}
 
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,15 +41,14 @@ extension SplashViewController {
             viewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
-           }
+        }
     }
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
+            self?.fetchOAuthToken(code)
         }
     }
 
