@@ -8,7 +8,6 @@ class OAuth2Service {
     func fetchAuthToken(
         code: String,
         handler: @escaping (Result<String, Error>) -> Void) {
-            
             var urlComponents = URLComponents(string: Constants.oauthString)!
             urlComponents.queryItems = [
                 URLQueryItem(name: "client_id", value: Constants.accessKey),

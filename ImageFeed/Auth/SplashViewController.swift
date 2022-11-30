@@ -57,6 +57,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success:
+                self.tokenStorage.token = code
                 self.switchToTabBarController()
             case .failure:
                 // TODO [Sprint 11]
