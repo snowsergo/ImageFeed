@@ -20,6 +20,7 @@ class OAuth2TokenStorage {
                 return
             }
             userDefaults.set(data, forKey: Keys.token.rawValue)
+            print("token.rawValue =",data)
         }
     }
 }
