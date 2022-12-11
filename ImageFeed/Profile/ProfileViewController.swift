@@ -1,45 +1,50 @@
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
 
-    private let profileService = ProfileService()
+    private let profileService = ProfileService.shared
     private let tokenStorage = OAuth2TokenStorage()
 
+    private var profileImageServiceObserver: NSObjectProtocol?
 
     @IBOutlet weak var profileImageView: UIImageView!
-
     @IBOutlet weak var nameLabel: UILabel!
-
     @IBOutlet weak var nicknameLabel: UILabel!
-
     @IBOutlet weak var messageLabel: UILabel!
-    
     @IBAction func didTapLogoutButton(_ sender: Any) {
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        if tokenStorage.token != nil {
-            UIBlockingProgressHUD.show()
-            let token = tokenStorage.token;
-//            guard token != nil else {return}
-            profileService.fetchProfile(token, handler: { [weak self] result in
-                guard self != nil else { return }
-                switch result {
-                case .success:
-                    print("result = ", result);
-                    UIBlockingProgressHUD.dismiss()
-                case .failure:
-                    UIBlockingProgressHUD.dismiss()
-                    print("ошибка при загрузке данных профиля")
-                    break
-                }
-            })
-        }
 
-        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.DidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
+        guard let profile = profileService.profile else {
+            return
+        }
+        self.updateProfileDetails(profile:profile)
     }
-    private func displayUserData(profile: Profile) {
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else {
+            return
+        }
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+        profileImageView.kf.setImage(with:url, options: [.processor(processor)])
+    }
+
+    private func updateProfileDetails(profile: Profile) {
         nameLabel.text = profile.name
         nicknameLabel.text = profile.loginName
         messageLabel.text = profile.bio

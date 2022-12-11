@@ -1,26 +1,22 @@
 import Foundation
+import SwiftKeychainWrapper
 
-class OAuth2TokenStorage {
-    private let userDefaults = UserDefaults.standard
-    private enum Keys: String {
-        case token
-    }
+protocol OAuth2TokenStoring {
+    var token: String? { get set }
+}
+class OAuth2TokenStorage: OAuth2TokenStoring {
     
     var token: String? {
         get {
-            guard let data = userDefaults.data(forKey: Keys.token.rawValue),
-                  let token = try? JSONDecoder().decode(String.self, from: data) else {
-                return nil
-            }
+            let token: String? = KeychainWrapper.standard.string(forKey: "Auth token")
             return token
         }
         set {
-            guard let data = try? JSONEncoder().encode(newValue) else {
-                print("Невозможно сохранить токен")
-                return
+            if let newValue = newValue {
+                KeychainWrapper.standard.set(newValue, forKey: "Auth token")
+            } else {
+                KeychainWrapper.standard.removeObject(forKey: "Auth token")
             }
-            userDefaults.set(data, forKey: Keys.token.rawValue)
-            print("token.rawValue =",data)
         }
     }
 }

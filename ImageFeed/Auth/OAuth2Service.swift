@@ -1,4 +1,5 @@
 import UIKit
+import SwiftKeychainWrapper
 
 class OAuth2Service {
     
@@ -19,7 +20,6 @@ class OAuth2Service {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
         let url = urlComponents.url!
-        //          guard let url = URL(string: "...\(code)") else { fatalError("Failed to create URL") }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         return request
@@ -27,62 +27,60 @@ class OAuth2Service {
     
     func fetchAuthToken(
         code: String,
-        handler: @escaping (Result<String, Error>) -> Void) {
+        handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
             
             assert(Thread.isMainThread)
-            if lastCode == code { return }                      // 1
-            task?.cancel()                                      // 2
+            if lastCode == code { return }
+            task?.cancel()
             lastCode = code
+            
             let request = makeRequest(code: code)
-            
-            //            var urlComponents = URLComponents(string: Constants.oauthString)!
-            //            urlComponents.queryItems = [
-            //                URLQueryItem(name: "client_id", value: Constants.accessKey),
-            //                URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            //                URLQueryItem(name: "redirect_uri", value: Constants.redirectUri),
-            //                URLQueryItem(name: "code", value: code),
-            //                URLQueryItem(name: "grant_type", value: "authorization_code")
-            //            ]
-            //            let url = urlComponents.url!
-            
-            //            var request = URLRequest(url: url)
-            //            request.httpMethod = "POST"
-            
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                
-                if let error = error {
-                    handler(.failure(error))
-                    return
-                }
-                
-                if let response = response as? HTTPURLResponse,
-                   response.statusCode < 200 && response.statusCode >= 300 {
-                    DispatchQueue.main.async {
-                        handler(.failure(NetworkError.codeError))
-                        //                        if error != nil {
-                        //                            self.lastCode = nil
-                        //                        }
-                    }
-                }
-                
-                guard let data = data else { return }
-                let apiResponse = try? JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                guard let apiResponse = apiResponse else {
-                    DispatchQueue.main.async {
-                        handler(.failure(NetworkError.codeError))
-                    }
-                    return
-                }
-                DispatchQueue.main.async {
-                    handler(.success(apiResponse.accessToken))
-                    self.task = nil
-                    if error != nil {
-                        self.lastCode = nil
-                    }
-                }
+            let session = URLSession.shared
+            let task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+                handler(result)
             }
             self.task = task
             task.resume()
         }
-    
+}
+
+extension URLSession {
+    private enum NetworkError: Error {
+        case codeError
+    }
+    func objectTask<T: Decodable>(
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) -> URLSessionTask {
+        let task = dataTask(with: request, completionHandler: { data, response, error in
+            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                if 200 ..< 300 ~= statusCode {
+                    do {
+                        let decoder = JSONDecoder()
+                        let result = try decoder.decode(T.self, from: data)
+                        DispatchQueue.main.async {
+                            completion(.success(result))
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        completion(.failure(NetworkError.codeError))
+                    }
+                }
+            } else if let error = error {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.codeError))
+                }
+            }
+        })
+        return task
+    }
 }
