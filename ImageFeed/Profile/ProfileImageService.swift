@@ -11,14 +11,13 @@ struct UserResult: Codable {
 final class ProfileImageService {
     
     static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
-
     static let shared = ProfileImageService()
     private (set) var avatarURL: String?
     private let profileService = ProfileService.shared
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastToken: String?
-
+    private let notificationCenter = NotificationCenter.default
     private enum NetworkError: Error {
         case codeError
     }
@@ -30,7 +29,6 @@ final class ProfileImageService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
-
 
     func fetchProfileImageURL(
         username: String,
@@ -55,19 +53,18 @@ final class ProfileImageService {
                     }
                     completion(result)
                 }
-            }
-            let request = makeUserImageRequest(username: username, token: token)
-            let session = URLSession.shared
-            let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
-                fulfillCompletionOnMainThread(result)
-                if let url = self?.avatarURL {
-                    NotificationCenter.default
+                if let url = self.avatarURL {
+                    self.notificationCenter
                         .post(
                             name: ProfileImageService.DidChangeNotification,
                             object: self,
                             userInfo: ["URL": url])
                 }
             }
+            
+            let request = makeUserImageRequest(username: username, token: token)
+            let session = URLSession.shared
+            let task = session.objectTask(for: request, completion: fulfillCompletionOnMainThread)
             self.task = task
             task.resume()
         }
