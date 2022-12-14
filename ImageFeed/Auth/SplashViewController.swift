@@ -1,5 +1,4 @@
 import UIKit
-//import ProgressHUD
 
 class SplashViewController: UIViewController{
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuth"
@@ -8,14 +7,11 @@ class SplashViewController: UIViewController{
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private var alertPresenter = AlertPresenter()
-    
+
+
     override func viewDidAppear(_ animated: Bool){
         super.viewDidAppear(animated)
-        if let token = tokenStorage.token {
-            self.fetchProfile(token: token)
-        } else {
-            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
-        }
+        startAuth()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,7 +22,15 @@ class SplashViewController: UIViewController{
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
-    
+
+    private func startAuth() {
+        if let token = tokenStorage.token {
+            self.fetchProfile(token: token)
+        } else {
+            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+        }
+    }
+
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
@@ -67,7 +71,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.fetchProfile(token: res.accessToken)
             case .failure:
                 self.showAlert()
-                break
             }
         }
     }
@@ -85,16 +88,18 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure:
                 UIBlockingProgressHUD.dismiss()
                 self.showAlert()
-                
             }
         }
     }
     
     func showAlert() {
+        print("___ показываем алерт")
         alertPresenter.showAlert(
             title: "Что-то пошло не так",
             text: "Не удалось войти в систему",
-            buttonText: "Ок",
-            controller: self)
+            buttonText: "Попробовать еще раз",
+            controller: self,
+            callback: startAuth
+        )
     }
 }

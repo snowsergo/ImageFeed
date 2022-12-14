@@ -52,7 +52,7 @@ final class ProfileService {
     
     func fetchProfile(_ token: String?, handler: @escaping (Result<ProfileResult, Error>) -> Void){
         assert(Thread.isMainThread)
-        if lastToken == token { return }
+        if lastToken == token {return}
         task?.cancel()
         lastToken = token
         guard let token = token else {
@@ -67,14 +67,16 @@ final class ProfileService {
                 case .success(let profile):
                     let convertedProfile = convert(profile: profile)
                     self.profile = Profile(username: convertedProfile.username, name: convertedProfile.name, loginName: convertedProfile.loginName, bio: convertedProfile.bio)
-                case .failure(_):
+                    handler(result)
+                case .failure:
+                    self.lastToken = nil
+                    self.task?.cancel()
                     handler(.failure(NetworkError.codeError))
                     return
                 }
-                handler(result)
             }
         }
-
+        
         let task = session.objectTask(for: request, completion: fulfillCompletionOnMainThread)
         self.task = task
         task.resume()
