@@ -114,6 +114,11 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Photoprofile" translatesAutoresizingMaskIntoConstraints="NO" id="UdT-Ay-IMp" userLabel="Profile Image">
                                 <rect key="frame" x="16" y="76" width="70" height="70"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="35"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сергей Ступников" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXJ-oz-VxS" userLabel="Name Label">
                                 <rect key="frame" x="16" y="154" width="198" height="27"/>
@@ -402,8 +407,17 @@
                     <view key="view" contentMode="scaleToFill" id="OUy-Av-yHi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Vector" translatesAutoresizingMaskIntoConstraints="NO" id="qON-mU-51Z">
+                                <rect key="frame" x="169.5" y="414" width="75" height="78"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="JTg-d6-aZA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="qON-mU-51Z" firstAttribute="centerY" secondItem="JTg-d6-aZA" secondAttribute="centerY" id="3gy-S9-qB7"/>
+                            <constraint firstItem="qON-mU-51Z" firstAttribute="centerX" secondItem="JTg-d6-aZA" secondAttribute="centerX" id="z1e-ll-mRO"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="57v-qC-9E2" kind="presentation" identifier="ShowAuth" id="lMm-wv-FGZ"/>
@@ -412,12 +426,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y8c-mb-90C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2106" y="-142"/>
+            <point key="canvasLocation" x="-2107.2463768115945" y="-142.63392857142856"/>
         </scene>
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Photoprofile" width="70" height="70"/>
+        <image name="Vector" width="75" height="78"/>
         <image name="auth_screen_logo" width="60" height="60"/>
         <image name="backward" width="24" height="24"/>
         <image name="like-active" width="30" height="26"/>
