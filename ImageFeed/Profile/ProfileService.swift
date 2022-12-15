@@ -52,7 +52,7 @@ final class ProfileService {
     
     func fetchProfile(_ token: String?, handler: @escaping (Result<ProfileResult, Error>) -> Void){
         assert(Thread.isMainThread)
-        if lastToken == token {return}
+        guard lastToken != token else { return }
         task?.cancel()
         lastToken = token
         guard let token = token else {
@@ -72,7 +72,6 @@ final class ProfileService {
                     self.lastToken = nil
                     self.task?.cancel()
                     handler(.failure(NetworkError.codeError))
-                    return
                 }
             }
         }

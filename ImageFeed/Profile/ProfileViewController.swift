@@ -18,6 +18,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        а зачем сохранять ссылку на обсервер? если не нужно использовать больше, то можно не сохранять ссылку. Тут хорошо бы разобраться зачем :)
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.DidChangeNotification,
@@ -31,7 +32,7 @@ class ProfileViewController: UIViewController {
         guard let profile = profileService.profile else {
             return
         }
-        self.updateProfileDetails(profile:profile)
+        updateProfileDetails(profile: profile)
     }
     private func updateAvatar() {
         guard

@@ -35,8 +35,7 @@ final class ProfileImageService {
         token: String?,
         _ completion: @escaping (Result<UserResult, Error>) -> Void) {
             assert(Thread.isMainThread)
-            if lastToken == token {
-                return }
+            guard lastToken != token else {return}
             task?.cancel()
             lastToken = token
             guard let token = token, let _ = profileService.profile else {
@@ -45,13 +44,17 @@ final class ProfileImageService {
 
             let fulfillCompletionOnMainThread: (Result<UserResult, Error>) -> Void = { result in
                 DispatchQueue.main.async {
-                    switch result {
-                    case .success(let image):
-                        self.avatarURL = image.profileImage?.medium
-                    case .failure(_):
-                        return
-                    }
-                    completion(result)
+                    defer { completion(result) }
+                    guard case .success(let image) = result else { return }
+                    self.avatarURL = image.profileImage?.medium
+                    
+//                    switch result {
+//                    case .success(let image):
+//                        self.avatarURL = image.profileImage?.medium
+//                    case .failure(_):
+//                        return
+//                    }
+//                    completion(result)
                 }
                 if let url = self.avatarURL {
                     self.notificationCenter

@@ -32,7 +32,7 @@ class OAuth2Service {
         handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
             
             assert(Thread.isMainThread)
-            if lastCode == code { return }
+            guard lastCode != code else { return }
             task?.cancel()
             lastCode = code
             
@@ -45,9 +45,11 @@ class OAuth2Service {
 }
 
 extension URLSession {
+
     private enum NetworkError: Error {
         case codeError
     }
+
     func objectTask<T: Decodable>(
         for request: URLRequest,
         completion: @escaping (Result<T, Error>) -> Void
@@ -64,7 +66,7 @@ extension URLSession {
             
             // Проверяем, что нам пришёл успешный код ответа
             if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 && response.statusCode >= 300 {
+               response.statusCode < 200 || response.statusCode >= 300 {
                 DispatchQueue.main.async {
                     completion(.failure(NetworkError.codeError))
                 }
