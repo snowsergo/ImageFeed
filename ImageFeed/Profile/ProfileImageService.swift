@@ -47,14 +47,6 @@ final class ProfileImageService {
                     defer { completion(result) }
                     guard case .success(let image) = result else { return }
                     self.avatarURL = image.profileImage?.medium
-                    
-//                    switch result {
-//                    case .success(let image):
-//                        self.avatarURL = image.profileImage?.medium
-//                    case .failure(_):
-//                        return
-//                    }
-//                    completion(result)
                 }
                 if let url = self.avatarURL {
                     self.notificationCenter

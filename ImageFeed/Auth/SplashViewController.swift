@@ -93,7 +93,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func showAlert() {
-        print("___ показываем алерт")
         alertPresenter.showAlert(
             title: "Что-то пошло не так",
             text: "Не удалось войти в систему",
