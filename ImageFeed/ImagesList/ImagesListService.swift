@@ -1,65 +1,17 @@
 import UIKit
 
-struct UrlsResult: Codable {
-    let raw: String
-    let full: String
-    let regular: String
-    let small: String
-    let thumb: String
-}
-
-struct Photo {
-    let id: String
-    let size: CGSize
-    let createdAt: Date?
-    let welcomeDescription: String?
-    let thumbImageURL: String
-    let largeImageURL: String
-    let isLiked: Bool
-}
-
-struct PhotoResult: Codable {
-    let id: String
-    let width: Int
-    let height: Int
-    let welcomeDescription: String?
-    let isLiked: Bool
-    let createdAt: String
-    let urls: UrlsResult
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case width
-        case height
-        case createdAt = "created_at"
-        case welcomeDescription = "description"
-        case isLiked = "liked_by_user"
-        case urls
-    }
-}
-
-struct LikedPhotoResult: Codable {
-    let photo: PhotoResult
-}
-
 final class ImageListService {
     static let shared = ImageListService()
 
     private (set) var photos: [Photo] = []
-    private var lastLoadedPage: Int = 0
+    private var lastLoadedPage: Int?
 
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
     private let notificationCenter = NotificationCenter.default
-    static let DidChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
 
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
 
     private func makePhotosRequest(pageNumber: Int, token: String) -> URLRequest {
         var urlComponents = URLComponents(string: Constants.getPhotosUrlString)!
@@ -90,38 +42,38 @@ final class ImageListService {
     }
     
     func fetchPhotosNextPage(token: String) {
+        print("____запросили страницу ! lastLoadedPage = ", lastLoadedPage)
         let fulfillCompletionOnMainThread: (Result<[PhotoResult], Error>) -> Void = { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let images):
-                    for image in images {
-                        let convertedImage = Photo(
-                            id: image.id,
-                            size: CGSize(width: image.width, height: image.height),
-                            createdAt: self.dateFormatter.date(from: image.createdAt),
-                            welcomeDescription:image.welcomeDescription,
-                            thumbImageURL: image.urls.thumb,
-                            largeImageURL: image.urls.full,
-                            isLiked: image.isLiked
-                        )
-                        self.photos.append(convertedImage);
-                    }
+                    let newPhotos = images.map { $0.convert() }
+                    self.photos.append(contentsOf: newPhotos);
                     self.task = nil
-                    self.lastLoadedPage += 1
+                    if self.lastLoadedPage != nil  {
+                        self.lastLoadedPage! += 1
+                    } else {
+                        self.lastLoadedPage = 1
+                    }
+
                     self.notificationCenter
                         .post(
-                            name: ImageListService.DidChangeNotification,
+                            name: ImageListService.didChangeNotification,
                             object: self,
                             userInfo: ["PHOTOS": self.photos])
                 case .failure(_):
                     self.task = nil
-                    return
                 }
             }
         }
 
-        if self.task != nil {return}
-        let nextPage = lastLoadedPage + 1
+        if self.task != nil {
+            print("уже есть запрос")
+            return }
+        //        let nextPage = lastLoadedPage + 1
+        let nextPage = lastLoadedPage == nil
+        ? 1
+        : lastLoadedPage! + 1
         let request = makePhotosRequest(pageNumber: nextPage, token: token)
         let session = URLSession.shared
         let task = session.objectTask(for: request, completion: fulfillCompletionOnMainThread)
@@ -151,7 +103,7 @@ final class ImageListService {
                             thumbImageURL: photo.thumbImageURL,
                             largeImageURL: photo.largeImageURL,
                             isLiked: !photo.isLiked)
-
+                        
                         self.photos[index] = newPhoto
                         completion(!photo.isLiked)
                     }
@@ -159,7 +111,6 @@ final class ImageListService {
 
                 case .failure(_):
                     self.task = nil
-                    UIBlockingProgressHUD.dismiss()
                     return
                 }
             }

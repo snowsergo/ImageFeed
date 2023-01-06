@@ -14,19 +14,23 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
     
-    @IBAction func likeButtonClicked(_ sender: Any) {
+    @IBAction private func likeButtonClicked(_ sender: Any) {
         delegate?.imageListCellDidTapLike(self)
     }
+
     static let reuseIdentifier = "ImagesListCell"
     
     override func prepareForReuse() {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
+        likeButton.setImage(nil, for: .normal)
+        dateLabel.text = nil
     }
+
     func setIsLiked(isLiked: Bool) {
         let buttonImage = isLiked ? UIImage(named: "like-active") : UIImage(named: "like-no-active")
         likeButton.setImage(buttonImage, for: .normal)
-        UIBlockingProgressHUD.dismiss()
+//        UIBlockingProgressHUD.dismiss()
     }
     
 }

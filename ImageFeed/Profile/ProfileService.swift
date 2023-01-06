@@ -1,34 +1,5 @@
 import UIKit
-
-struct ProfileImage: Codable {
-    let small: String?
-    let medium: String?
-    let large: String?
-}
-
-struct ProfileResult: Codable{
-    let username: String
-    let firstName: String?
-    let lastName: String?
-    let bio: String?
-    let profileImage: ProfileImage?
-    
-    enum CodingKeys: String, CodingKey {
-        case username
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case bio
-        case profileImage = "profile_image"
-    }
-}
-
-struct Profile {
-    let username: String
-    let name: String
-    let loginName : String
-    let bio: String?
-    
-}
+import WebKit
 
 final class ProfileService {
     static let shared = ProfileService()
@@ -79,6 +50,15 @@ final class ProfileService {
         let task = session.objectTask(for: request, completion: fulfillCompletionOnMainThread)
         self.task = task
         task.resume()
+    }
+
+     func clean() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
     }
 }
 

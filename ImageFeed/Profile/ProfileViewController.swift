@@ -1,6 +1,5 @@
 import UIKit
 import Kingfisher
-import WebKit
 
 class ProfileViewController: UIViewController {
     private let ShowSplashViewIdentifier = "ShowSplashView"
@@ -13,9 +12,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBAction func didTapLogoutButton(_ sender: Any) {
+    @IBAction private func didTapLogoutButton(_ sender: Any) {
         tokenStorage.token = nil
-        ProfileViewController.clean()
+        profileService.clean()
         performSegue(withIdentifier: ShowSplashViewIdentifier, sender: nil)
     }
 
@@ -52,14 +51,5 @@ class ProfileViewController: UIViewController {
         nameLabel.text = profile.name
         nicknameLabel.text = profile.loginName
         messageLabel.text = profile.bio
-    }
-
-    static func clean() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-            }
-        }
     }
 }

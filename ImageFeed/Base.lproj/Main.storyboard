@@ -210,19 +210,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jwo-x4-6Hh">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwo-x4-6Hh">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="iT3-N4-oeM">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="132"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="iT3-N4-oeM">
+                                        <rect key="frame" x="107" y="382" width="200" height="132"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="iT3-N4-oeM" secondAttribute="bottom" id="Brm-ku-Khk"/>
-                                    <constraint firstItem="iT3-N4-oeM" firstAttribute="top" secondItem="jwo-x4-6Hh" secondAttribute="top" id="YqA-2R-CaQ"/>
-                                    <constraint firstItem="iT3-N4-oeM" firstAttribute="leading" secondItem="jwo-x4-6Hh" secondAttribute="leading" id="qVg-AI-3UK"/>
-                                    <constraint firstAttribute="trailing" secondItem="iT3-N4-oeM" secondAttribute="trailing" id="sTD-U9-gZI"/>
-                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="knm-FM-tfB"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="b4G-0C-OV2"/>
                                 <connections>
