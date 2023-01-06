@@ -2,23 +2,12 @@ import UIKit
 import Kingfisher
 import SwiftUI
 
-//struct MyIndicator: Indicator {
-//    let view: UIView = UIActivityIndicatorView(style: .whiteLarge)
-//
-//    func startAnimatingView() { view.isHidden = false }
-//    func stopAnimatingView() { view.isHidden = true }
-//
-//    init() {
-//        view.backgroundColor = .red
-//    }
-//}
 
 class SingleImageViewController: UIViewController {
     var fullImageUrl: String? = nil
     var size: CGSize? = nil
     
     @IBOutlet var imageView: UIImageView!
-    
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBAction func didTapBackButton(_ sender: Any) {
@@ -38,35 +27,20 @@ class SingleImageViewController: UIViewController {
         guard let fullUrl = fullImageUrl, let size = size else {
             return
         }
-        scrollView.minimumZoomScale = 1
-//        scrollView.maximumZoomScale = 1
-//        rescaleAndCenterImageInScrollView(size: size)
         let url = URL(string: "\(fullUrl)")
-//        let i = MyIndicator()
-//        imageView.kf.indicatorType = .custom(indicator: i)
-        imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder-icon"), options: []){ [self] result in
-            switch result {
-            case .success:
-                scrollView.minimumZoomScale = 0.1
-                scrollView.maximumZoomScale = 1.25
-                rescaleAndCenterImageInScrollView(size: size)
-            case .failure(let error):
-                print(error)
-            }
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder-icon"), options: []){ [weak self] result in
+            guard let self = self else { return }
+            defer { UIBlockingProgressHUD.dismiss() }
+            guard case .success(_) = result else { return }
+            self.scrollView.minimumZoomScale = 0.1
+            self.scrollView.maximumZoomScale = 1.25
+            self.rescaleAndCenterImageInScrollView(size: size)
         }
-//        scrollView.minimumZoomScale = 0.1
-//        scrollView.maximumZoomScale = 1.25
-//        rescaleAndCenterImageInScrollView(size: size)
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 1
+        rescaleAndCenterImageInScrollView(size: size)
     }
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        scrollView.minimumZoomScale = 0.1
-//        scrollView.maximumZoomScale = 1.25
-//        guard let size = size else {
-//            return
-//        }
-//        rescaleAndCenterImageInScrollView(size: size)
-//    }
     
     private func rescaleAndCenterImageInScrollView(size: CGSize) {
         let minZoomScale = scrollView.minimumZoomScale

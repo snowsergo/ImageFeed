@@ -13,7 +13,7 @@ final class ProfileImageService {
     private enum NetworkError: Error {
         case codeError
     }
-
+    
     private func makeUserImageRequest(username:String, token: String) -> URLRequest {
         var url = Constants.defaultBaseUrl
         url.appendPathComponent("/users/\(username)")
@@ -21,7 +21,7 @@ final class ProfileImageService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
-
+    
     func fetchProfileImageURL(
         username: String,
         token: String?,
@@ -33,8 +33,9 @@ final class ProfileImageService {
             guard let token = token, let _ = profileService.profile else {
                 return
             }
-
-            let fulfillCompletionOnMainThread: (Result<UserResult, Error>) -> Void = { result in
+            
+            let fulfillCompletionOnMainThread: (Result<UserResult, Error>) -> Void = { [weak self] result in
+                guard let self = self else { return }
                 DispatchQueue.main.async {
                     defer { completion(result) }
                     guard case .success(let image) = result else { return }

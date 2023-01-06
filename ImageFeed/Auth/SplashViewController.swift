@@ -74,7 +74,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.tokenStorage.token = res.accessToken
                 self.fetchProfile(token: res.accessToken)
             case .failure:
-//                self.tokenStorage.token = nil
                 self.loginFailuresCount += 1
                 self.showAlert()
             }
@@ -101,7 +100,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func showAlert() {
-//        tokenStorage.token = nil
         alertPresenter.showAlert(
             title: "Что-то пошло не так",
             text: "Не удалось войти в систему",

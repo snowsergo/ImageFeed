@@ -210,14 +210,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwo-x4-6Hh">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="jwo-x4-6Hh">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="iT3-N4-oeM">
-                                        <rect key="frame" x="107" y="382" width="200" height="132"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="placeholder-icon" translatesAutoresizingMaskIntoConstraints="NO" id="iT3-N4-oeM">
+                                        <rect key="frame" x="166" y="411" width="83" height="75"/>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="iT3-N4-oeM" firstAttribute="leading" secondItem="jwo-x4-6Hh" secondAttribute="leading" id="BS8-b9-Raa"/>
+                                    <constraint firstAttribute="trailing" secondItem="iT3-N4-oeM" secondAttribute="trailing" id="P5d-Pg-FTR"/>
+                                    <constraint firstItem="iT3-N4-oeM" firstAttribute="top" secondItem="jwo-x4-6Hh" secondAttribute="top" id="cGi-RL-eYM"/>
+                                    <constraint firstAttribute="bottom" secondItem="iT3-N4-oeM" secondAttribute="bottom" id="g4L-Dv-fiH"/>
+                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="knm-FM-tfB"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="b4G-0C-OV2"/>
                                 <connections>
@@ -273,7 +278,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GSi-RR-7te" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="638" y="-3"/>
+            <point key="canvasLocation" x="637.68115942028987" y="-3.3482142857142856"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="2Gh-xy-CTj">
@@ -430,7 +435,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0" width="200" height="132"/>
         <image name="Photoprofile" width="70" height="70"/>
         <image name="Vector" width="75" height="78"/>
         <image name="auth_screen_logo" width="60" height="60"/>
@@ -438,6 +442,7 @@
         <image name="like-active" width="30" height="26"/>
         <image name="logout" width="20" height="22"/>
         <image name="nav_back" width="24" height="24"/>
+        <image name="placeholder-icon" width="83" height="75"/>
         <image name="sharing" width="30" height="30"/>
         <image name="tab-editorial-active" width="30" height="30"/>
         <image name="tab-profile-active" width="30" height="30"/>

@@ -32,7 +32,8 @@ final class ProfileService {
         let request = makeUserDataRequest(token: token)
         let session = URLSession.shared
         
-        let fulfillCompletionOnMainThread: (Result<ProfileResult, Error>) -> Void = { result in
+        let fulfillCompletionOnMainThread: (Result<ProfileResult, Error>) -> Void = { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let profile):
@@ -51,8 +52,8 @@ final class ProfileService {
         self.task = task
         task.resume()
     }
-
-     func clean() {
+    
+    func clean() {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
             records.forEach { record in

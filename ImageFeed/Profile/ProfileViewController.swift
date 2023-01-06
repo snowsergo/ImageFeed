@@ -36,6 +36,7 @@ class ProfileViewController: UIViewController {
         }
         updateProfileDetails(profile: profile)
     }
+    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,

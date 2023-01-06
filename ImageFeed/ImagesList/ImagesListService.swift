@@ -2,24 +2,24 @@ import UIKit
 
 final class ImageListService {
     static let shared = ImageListService()
-
+    
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
-
+    
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
     private let notificationCenter = NotificationCenter.default
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-
-
+    
+    
     private func makePhotosRequest(pageNumber: Int, token: String) -> URLRequest {
         var urlComponents = URLComponents(string: Constants.getPhotosUrlString)!
         urlComponents.queryItems = [
             URLQueryItem(name: "page", value: String(pageNumber)),
             URLQueryItem(name: "per_page", value: "10"),
         ]
-
+        
         guard let url = urlComponents.url else {
             fatalError("makeRequest Error")
         }
@@ -28,7 +28,7 @@ final class ImageListService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
-
+    
     private func makeLikeChangingRequest(photoId: String, isLike: Bool, token: String) -> URLRequest {
         let urlComponents = URLComponents(string: Constants.getPhotosUrlString)!
         guard var url = urlComponents.url else {
@@ -42,8 +42,8 @@ final class ImageListService {
     }
     
     func fetchPhotosNextPage(token: String) {
-        print("____запросили страницу ! lastLoadedPage = ", lastLoadedPage)
-        let fulfillCompletionOnMainThread: (Result<[PhotoResult], Error>) -> Void = { result in
+        let fulfillCompletionOnMainThread: (Result<[PhotoResult], Error>) -> Void = { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let images):
@@ -55,7 +55,7 @@ final class ImageListService {
                     } else {
                         self.lastLoadedPage = 1
                     }
-
+                    
                     self.notificationCenter
                         .post(
                             name: ImageListService.didChangeNotification,
@@ -66,11 +66,8 @@ final class ImageListService {
                 }
             }
         }
-
-        if self.task != nil {
-            print("уже есть запрос")
-            return }
-        //        let nextPage = lastLoadedPage + 1
+        
+        if self.task != nil { return }
         let nextPage = lastLoadedPage == nil
         ? 1
         : lastLoadedPage! + 1
@@ -80,26 +77,27 @@ final class ImageListService {
         self.task = task
         task.resume()
     }
-
+    
     func changeLike(
         photoId: String,
         isLike: Bool,
         token: String,
         _ completion: @escaping (_ isLiked: Bool) -> Void
     ) {
-        let fulfillCompletionOnMainThread: (Result<LikedPhotoResult, Error>) -> Void = { result in
+        let fulfillCompletionOnMainThread: (Result<LikedPhotoResult, Error>) -> Void = { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success:
                     if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
-
+                        
                         let photo = self.photos[index]
-
+                        
                         let newPhoto = Photo(
                             id: photo.id,
                             size: photo.size,
                             createdAt: photo.createdAt,
-                            welcomeDescription:photo.welcomeDescription,
+                            welcomeDescription: photo.welcomeDescription,
                             thumbImageURL: photo.thumbImageURL,
                             largeImageURL: photo.largeImageURL,
                             isLiked: !photo.isLiked)
@@ -108,7 +106,7 @@ final class ImageListService {
                         completion(!photo.isLiked)
                     }
                     self.task = nil
-
+                    
                 case .failure(_):
                     self.task = nil
                     return

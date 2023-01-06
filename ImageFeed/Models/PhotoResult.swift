@@ -8,7 +8,7 @@ struct PhotoResult: Codable {
     let isLiked: Bool
     let createdAt: String
     let urls: UrlsResult
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case width
@@ -22,16 +22,17 @@ struct PhotoResult: Codable {
 
 extension PhotoResult {
     func convert() -> Photo {
-        lazy var dateFormatter: DateFormatter = {
+        
+        let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
-            formatter.dateStyle = .long
-            formatter.timeStyle = .none
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
             return formatter
         }()
+        
         return Photo(
             id: self.id,
             size: CGSize(width: self.width, height: self.height),
-            createdAt: dateFormatter.date(from: self.createdAt),
+            createdAt: dateFormatter.date(from: self.createdAt) ?? Date(),
             welcomeDescription: self.welcomeDescription,
             thumbImageURL: self.urls.thumb,
             largeImageURL: self.urls.full,
@@ -39,5 +40,3 @@ extension PhotoResult {
         )
     }
 }
-
-
