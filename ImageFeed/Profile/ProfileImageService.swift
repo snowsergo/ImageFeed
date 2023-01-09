@@ -1,13 +1,5 @@
 import Foundation
 
-struct UserResult: Codable {
-    let profileImage: ProfileImage?
-
-    enum CodingKeys: String, CodingKey {
-        case profileImage = "profile_image"
-    }
-}
-
 final class ProfileImageService {
     
     static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
@@ -21,7 +13,7 @@ final class ProfileImageService {
     private enum NetworkError: Error {
         case codeError
     }
-
+    
     private func makeUserImageRequest(username:String, token: String) -> URLRequest {
         var url = Constants.defaultBaseUrl
         url.appendPathComponent("/users/\(username)")
@@ -29,7 +21,7 @@ final class ProfileImageService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
-
+    
     func fetchProfileImageURL(
         username: String,
         token: String?,
@@ -41,20 +33,13 @@ final class ProfileImageService {
             guard let token = token, let _ = profileService.profile else {
                 return
             }
-
-            let fulfillCompletionOnMainThread: (Result<UserResult, Error>) -> Void = { result in
+            
+            let fulfillCompletionOnMainThread: (Result<UserResult, Error>) -> Void = { [weak self] result in
+                guard let self = self else { return }
                 DispatchQueue.main.async {
                     defer { completion(result) }
                     guard case .success(let image) = result else { return }
                     self.avatarURL = image.profileImage?.medium
-                    
-//                    switch result {
-//                    case .success(let image):
-//                        self.avatarURL = image.profileImage?.medium
-//                    case .failure(_):
-//                        return
-//                    }
-//                    completion(result)
                 }
                 if let url = self.avatarURL {
                     self.notificationCenter

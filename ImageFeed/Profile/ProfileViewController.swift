@@ -2,7 +2,7 @@ import UIKit
 import Kingfisher
 
 class ProfileViewController: UIViewController {
-
+    private let ShowSplashViewIdentifier = "ShowSplashView"
     private let profileService = ProfileService.shared
     private let tokenStorage = OAuth2TokenStorage()
 
@@ -12,13 +12,15 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBAction func didTapLogoutButton(_ sender: Any) {
+    @IBAction private func didTapLogoutButton(_ sender: Any) {
+        tokenStorage.token = nil
+        profileService.clean()
+        performSegue(withIdentifier: ShowSplashViewIdentifier, sender: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        а зачем сохранять ссылку на обсервер? если не нужно использовать больше, то можно не сохранять ссылку. Тут хорошо бы разобраться зачем :)
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.DidChangeNotification,
@@ -34,6 +36,7 @@ class ProfileViewController: UIViewController {
         }
         updateProfileDetails(profile: profile)
     }
+    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -44,7 +47,7 @@ class ProfileViewController: UIViewController {
         let processor = RoundCornerImageProcessor(cornerRadius: 35)
         profileImageView.kf.setImage(with:url, options: [.processor(processor)])
     }
-
+    
     private func updateProfileDetails(profile: Profile) {
         nameLabel.text = profile.name
         nicknameLabel.text = profile.loginName

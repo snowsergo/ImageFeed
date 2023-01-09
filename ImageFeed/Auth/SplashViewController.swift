@@ -7,7 +7,7 @@ class SplashViewController: UIViewController{
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private var alertPresenter = AlertPresenter()
-
+    private var loginFailuresCount = 0
 
     override func viewDidAppear(_ animated: Bool){
         super.viewDidAppear(animated)
@@ -24,6 +24,9 @@ class SplashViewController: UIViewController{
     }
 
     private func startAuth() {
+        if loginFailuresCount == 3 {
+            tokenStorage.token = nil
+        }
         if let token = tokenStorage.token {
             self.fetchProfile(token: token)
         } else {
@@ -67,9 +70,11 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let res):
+                self.loginFailuresCount = 0
                 self.tokenStorage.token = res.accessToken
                 self.fetchProfile(token: res.accessToken)
             case .failure:
+                self.loginFailuresCount += 1
                 self.showAlert()
             }
         }
@@ -80,12 +85,14 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let profile):
+                self.loginFailuresCount = 0
                 UIBlockingProgressHUD.dismiss()
                 self.switchToTabBarController()
                 self.profileImageService.fetchProfileImageURL(
                     username: profile.username,
                     token: token) { _ in }
             case .failure:
+                self.loginFailuresCount += 1
                 UIBlockingProgressHUD.dismiss()
                 self.showAlert()
             }
@@ -93,7 +100,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func showAlert() {
-        print("___ показываем алерт")
         alertPresenter.showAlert(
             title: "Что-то пошло не так",
             text: "Не удалось войти в систему",
