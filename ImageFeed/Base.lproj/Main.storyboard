@@ -179,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LNB-Wd-Uuf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2165" y="357"/>
+            <point key="canvasLocation" x="-1271" y="824"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="etH-Gv-Kyh">
@@ -353,7 +353,7 @@
         <!--Web View View Controller-->
         <scene sceneID="xYK-Be-MyR">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="d2P-yG-Sy4" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" modalPresentationStyle="fullScreen" id="d2P-yG-Sy4" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CxX-ka-wto">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -15,7 +15,7 @@ final class ProfileImageService {
     }
     
     private func makeUserImageRequest(username:String, token: String) -> URLRequest {
-        var url = Constants.defaultBaseUrl
+        var url = AuthConfiguration.standard.defaultBaseURL
         url.appendPathComponent("/users/\(username)")
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
