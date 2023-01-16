@@ -64,8 +64,6 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         }
     }
 
-
-    // это точно остается так как меняет внешний вид
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath)  {
         cell.cellImage.layer.addSublayer(animationsHelper.gradient)
         guard let url = URL(string: (presenter?.photos[indexPath.row].thumbImageURL)!) else {return}

@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 public protocol ProfileViewPresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
@@ -15,7 +16,6 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private let tokenStorage = OAuth2TokenStorage()
 
     func viewDidLoad() {
-        print("___presenter viewDidLoad")
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.DidChangeNotification,
@@ -29,7 +29,6 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         if let profileImageURL = profileImageService.avatarURL {
             view?.updateAvatar(profileImageURL: profileImageURL)
         }
-
 
         if let profile = profileService.profile {
             view?.updateProfileDetails(name: profile.name, loginName: profile.loginName, bio: profile.bio)

@@ -97,12 +97,10 @@ class AnimationsHelper  {
     }
 
     func removeAvatarAnimations(){
-        print("______removeAvatarAnimations")
         gradient.removeFromSuperlayer()
 
     }
     func removeTextAnimations(){
-        print("____removeTextAnimations")
         gradient2.removeFromSuperlayer()
         gradient3.removeFromSuperlayer()
         gradient4.removeFromSuperlayer()
@@ -134,7 +132,6 @@ class AnimationsHelper  {
     }
 
     func removeImagesListAnimations(){
-        print("_______removeImagesListAnimations")
         gradient5.removeFromSuperlayer()
     }
 
